@@ -52,19 +52,50 @@ public class AccountRepositoryJDBC implements AccountRepository{
 
 	@Override
 	public boolean depositMoney(double amount) {
-		// TODO Auto-generated method stub
-		return false;
+		LOGGER.trace("Deposit money into account");
+		
+
+		try(Connection connection = BankConnectionUtil.getConnection()){
+			
+			int parameterIndex = 0;
+			String sql = "UPDATE AccountTable SET CURRENT_BALANCE = (CURRENT_BALANCE + ?)";
+			PreparedStatement UserStatement = connection.prepareStatement(sql);
+			UserStatement.setDouble(++parameterIndex, amount);
+			ResultSet result = UserStatement.executeQuery();
+			
+			//connection.commit();
+			
+		}catch(SQLException e) {
+			LOGGER.error("Could not find deposit money.", e);
+		}
+		
+		return true;
 	}
 
 	@Override
 	public boolean withdrawMoney(double amount) {
-		// TODO Auto-generated method stub
-		return false;
+		LOGGER.trace("Withdrawing money into account");
+
+		try(Connection connection = BankConnectionUtil.getConnection()){
+			
+			int parameterIndex = 0;
+			String sql = "UPDATE AccountTable SET CURRENT_BALANCE = (CURRENT_BALANCE - ?)";
+			PreparedStatement UserStatement = connection.prepareStatement(sql);
+			UserStatement.setDouble(++parameterIndex, amount);
+			ResultSet result = UserStatement.executeQuery();
+			
+			//connection.commit();
+			
+			
+		}catch(SQLException e) {
+			LOGGER.error("Could not find withdraw money.", e);
+		}
+		return true;
 	}
 	
-	public static void main(String[] args) {
-		AccountRepository accRepo = new AccountRepositoryJDBC();
-		LOGGER.info(accRepo.lookAccount(3224));
-	}
+//	public static void main(String[] args) {
+//		AccountRepository accRepo = new AccountRepositoryJDBC();
+//		LOGGER.info(accRepo.lookAccount(3224));
+//	}
 
 }
