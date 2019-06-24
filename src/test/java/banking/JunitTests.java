@@ -18,12 +18,26 @@ import com.revature.exception.*;
 public class JunitTests {
 	
 	@Rule
-	public ExpectedException expectedException = ExpectedException.none();
+	private static final UserRepositoryJDBC testUser = new UserRepositoryJDBC();
+	private static final AccountRepositoryJDBC testAccount = new AccountRepositoryJDBC();
 	
-	//@Test
+	
+	@Test
+	public void withdraw() {
+		final String username = "ajoshi26";
+		final String password = "1234";
+		assertTrue(testUser.findIDandPassword(username, password));
+		
+	}
 	
 	
-	//@Test
+	
+	@Test
+	public void deposit() {
+		final double amount = 40;
+		assertTrue(testAccount.depositMoney(amount));
+		
+	}
 	
 	
 
