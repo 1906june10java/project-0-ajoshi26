@@ -20,8 +20,7 @@ public class Driver {
 		while(true) {
 			System.out.println("Welcome to Bank Joshi!");
 			System.out.println("1. Login");
-			System.out.println("2. Register");
-			System.out.println("3. Exit");
+			System.out.println("2. Exit");
 
 			switch(input.next()) {
 			case "1":
@@ -82,26 +81,6 @@ public class Driver {
 
 				break;
 			case "2":
-				System.out.println("Create a username: ");
-				String newUsername = input.next();
-				System.out.println("Create a password: ");
-				String newPassword = input.next();
-				System.out.println("Create an account number: ");
-
-				long newAccountNumber = input.nextLong();
-				double newBalance = 0.00;
-				Account newAccount = new Account(newAccountNumber,newAccountNumber,newBalance);
-				User newUser = new User(newUsername,newPassword,newAccount);
-
-
-				if(user.createUser(newUser)) {
-					System.out.println("New account created");
-				}
-				else {
-					System.out.println("Creation Invalid!");
-				}
-				break;
-			case "3":
 				System.out.println("Have a nice day!");
 				System.exit(0);
 				break;
