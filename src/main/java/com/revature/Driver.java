@@ -2,18 +2,22 @@ package com.revature;
 
 import java.util.Scanner;
 
+//import com.revature.exception.InputValidationException;
 import com.revature.model.Account;
 import com.revature.model.User;
 import com.revature.repository.AccountRepositoryJDBC;
 import com.revature.repository.UserRepositoryJDBC; 
+import com.revature.exception.*;
 
 public class Driver {
 	
-	public static void main(String [] args) {
+	public static void main(String [] args) throws WithdrawalAmountException, DepositAmount {
 		
 		Scanner input = new Scanner(System.in);
 		UserRepositoryJDBC user = new UserRepositoryJDBC();
 		AccountRepositoryJDBC account = new AccountRepositoryJDBC();
+		WithdrawalAmountException withdrawalAmount = new WithdrawalAmountException();
+		DepositAmount deposit = new DepositAmount();
 		long accountNum = 0;
 		//Account account = new Account();
 		
@@ -41,27 +45,34 @@ public class Driver {
 					
 					switch(choice) {
 					case 1:
-//						System.out.println("Enter in account number:");
-//						accountNum = input.nextLong();
+						System.out.println("Enter in account number:");
+						accountNum = input.nextLong();
 						System.out.println("Enter in the amount you would like to deposit:");
 						double amount = input.nextDouble();
-						if(account.depositMoney(amount)) {
-							System.out.println("You have successfully deposited money!");
+						
+						if(deposit.DepositAmount(amount)) {
+							if(account.depositMoney(amount)) {
+								System.out.println("You have successfully withdrawn money!");
+							}
 						}
 						else {
-							System.out.println("Something is wrong!");
+							throw new DepositAmount();
 						}
 						break;
 					case 2:
-//						System.out.println("Enter in account number:");
-//						accountNum = input.nextLong();
+						System.out.println("Enter in account number:");
+						accountNum = input.nextLong();
 						System.out.println("Enter in the amount you would like to withdraw:");
 						amount = input.nextDouble();
-						if(account.withdrawMoney(amount)) {
-							System.out.println("You have successfully withdrawn money!");
+						
+						if(withdrawalAmount.WithdrawalAmountException(amount, account.getBalanceAmount(accountNum))) {
+							if(account.withdrawMoney(amount)) {
+								System.out.println("You have successfully withdrawn money!");
+							}
 						}
 						else {
-							System.out.println("Something is wrong!");
+							//Throw InputValidation exception
+							throw new WithdrawalAmountException();
 						}
 						break;
 					case 3:
@@ -75,8 +86,8 @@ public class Driver {
 
 				}
 				else {
-					System.out.println("Login Invalid!");
-
+					//throw new InputValidationException(username, password);
+					System.out.println("Invalid Login!");
 				}
 
 				break;
@@ -85,7 +96,7 @@ public class Driver {
 				System.exit(0);
 				break;
 			default:
-				System.out.println("Invalid Choice!");
+				
 
 			}
 		}
